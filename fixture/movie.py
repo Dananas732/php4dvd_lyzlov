@@ -1,6 +1,5 @@
 __author__ = 'e.lyzlov'
-from model.movie import Movie
-
+from selenium.webdriver.common.keys import Keys
 
 class MovieHelper:
 
@@ -18,7 +17,7 @@ class MovieHelper:
         wd.find_element_by_id("submit").click()
         self.app.open_home_page()
 
-    def check_field(self):
+    def check_field_in_add_form(self):
         wd = self.app.wd
         self.app.open_add_movie_page()
         wd.find_element_by_xpath("//div[@class='addmovie']//input[@name='name'][@class='required error']")
@@ -30,15 +29,15 @@ class MovieHelper:
     films_list = None
 
     def get_movie_list(self):
-        if self.films_list is None:
+        films_list = None
+        if films_list is None:
             wd = self.app.wd
-            self.app.open_home_page()
-            self.films_list = []
+            films_list = []
             for element in wd.find_elements_by_xpath("//div[@class='movie_box']"):
                 id = element.get_attribute("id")
-                self.films_list.append(id)
-        return list(self.films_list)
-    print(films_list)
+                films_list.append(id)
+        return list(films_list)
+
 
     def select_film_by_id(self, id):
         wd = self.app.wd
@@ -50,3 +49,14 @@ class MovieHelper:
         self.select_film_by_id(id)
         wd.find_element_by_xpath("//img[@title='Remove'][@alt='Remove']").click()
         wd.switch_to_alert().accept()
+
+    def search_film(self, film):
+        wd = self.app.wd
+        self.app.open_home_page()
+        wd.find_element_by_xpath("//div[@class='searchbox']/input[@id='q']").clear()
+        wd.find_element_by_xpath("//div[@class='searchbox']/input[@id='q']").send_keys(film.film_name)
+        wd.find_element_by_xpath("//div[@class='searchbox']/input[@id='q']").send_keys(Keys.RETURN)
+
+    def check_film_list(self):
+        wd = self.app.wd
+        wd.find_element_by_xpath("//div[@id='results']/div[@class='content']").send_keys(Keys.ENTER)

@@ -11,13 +11,17 @@ def app(request):
     return fixture
 
 
-def test_add_movie(app):
+def test_search_real_movie(app):
     app.session.login(username='admin', password='admin')
-    app.movie.add_movie(Movie(film_name='name', film_year='2016'))
+    app.movie.search_film(Movie(film_name='name'))
+    film = app.movie.get_movie_list()
+    assert len(film) > 0
     app.session.logout()
 
 
-def test_add_movie_empty(app):
+def test_search_not_real_movie(app):
     app.session.login(username='admin', password='admin')
-    app.movie.check_field_in_add_form()
+    app.movie.search_film(Movie(film_name='ZZZZZZZZZZ'))
+    film = app.movie.get_movie_list()
+    assert len(film) > 0
     app.session.logout()
