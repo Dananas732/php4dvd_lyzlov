@@ -1,13 +1,11 @@
 __author__ = 'e.lyzlov'
-from selenium.webdriver.firefox.webdriver import WebDriver
 from fixture.session import SessionHelper
 from fixture.movie import MovieHelper
 
-class Application:
+class Application(object):
 
-    def __init__(self):
+    def __init__(self, WebDriver):
         self.wd = WebDriver()
-        self.wd.implicitly_wait(30)
         self.base_url = "http://localhost/"
         self.session = SessionHelper(self)
         self.movie = MovieHelper(self)
