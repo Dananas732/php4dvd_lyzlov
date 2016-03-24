@@ -6,7 +6,7 @@ import random
 
 
 def test_del_movie(app):
-    app.login(User.Admin())
+    app.session.login(User.Admin())
     select_film = app.movie.get_movie_list()
     film = random.choice(select_film)
     app.movie.del_film_by_id(film)

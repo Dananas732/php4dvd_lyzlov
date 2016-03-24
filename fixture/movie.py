@@ -1,25 +1,12 @@
 __author__ = 'e.lyzlov'
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.wait import WebDriverWait
+
+
 
 class MovieHelper:
 
     def __init__(self, app):
         self.app = app
-
-    def wait_empty_page(self):
-        wd = self.app.wd
-        for i in range(60):
-            try:
-                if len(self.get_movie_list()) == 0: break
-            except: pass
-
-    def wait_load_page(self, par):
-        wd = self.app.wd
-        for i in range(60):
-            try:
-                if wd.current_url == self.app.base_url + "/php4dvd/#!/search/'%s'/sort/name%20asc/" % par: break
-            except: pass
 
 
     def add_movie(self, film):
@@ -44,14 +31,13 @@ class MovieHelper:
     films_list = None
 
     def get_movie_list(self):
-        films_list = None
-        if films_list is None:
+        if self.films_list is None:
             wd = self.app.wd
-            films_list = []
+            self.films_list = []
             for element in wd.find_elements_by_xpath("//div[@class='movie_box']"):
                 id = element.get_attribute("id")
-                films_list.append(id)
-        return list(films_list)
+                self.films_list.append(id)
+        return list(self.films_list)
 
 
     def select_film_by_id(self, id):
