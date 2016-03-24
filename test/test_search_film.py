@@ -6,9 +6,10 @@ from fixture.selenium_fixture import app
 
 def test_search_real_movie(app):
     app.session.login(User.Admin())
-    element = app.wd.find_elements_by_xpath("//div[@class='movie_box']")
+    element = app.wd.find_element_by_xpath("//div[@class='movie_box']")
     app.movie.search_film(Movie(film_name='name'))
-    app.wait(element)
+    app.wait_element_off(element)
+    app.wait_element_on()
   #  wait_load_page('name')
     app.session.logout()
 
